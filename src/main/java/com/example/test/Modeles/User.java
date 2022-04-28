@@ -17,8 +17,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
+import lombok.ToString;
 @Data
 @Entity
 @Table(name="users")
@@ -45,6 +48,7 @@ public class User {
 	private Set<Role> roles = new HashSet<>();
 	
 	@OneToMany (mappedBy = "user")
+	@JsonIgnore
 	private List<Inventaire> inventaires;
 	
 

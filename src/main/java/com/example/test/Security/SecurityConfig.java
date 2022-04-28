@@ -14,19 +14,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-
 import com.example.test.Service.UserDetailsServiceIN;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsServiceIN userDetailsService;
 	@Autowired
 	JwtAuthentificationEntryPoint authenticationEntryPoint;
+	
 	@Override
 	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
 		authenticationManagerBuilder.userDetailsService(userDetailsService)
@@ -46,22 +43,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public JwtTokenFilter jwtTokenFilter(){
 		return new JwtTokenFilter();
 	}
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		// We don't need CSRF for this example
-		
-		httpSecurity.cors().and().csrf().disable()
-					.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
-					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-					.authorizeRequests().antMatchers("/auth/**","/api/**","/categorie").permitAll()
-					.antMatchers(HttpMethod.GET, "/user/allusers").permitAll()
-					.anyRequest().authenticated();
-		
-		
-        
-		
-		httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);					
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests().antMatchers("/api").authenticated().anyRequest().permitAll().and().formLogin()
+				.usernameParameter("email").defaultSuccessUrl("/api").permitAll().and().logout().logoutSuccessUrl("/")
+				.permitAll();
+
+		http.cors().and().csrf().disable();
+
 	}
+	
+	
+	
+	
+	
+
+	
+	
+	
+
 	
 	
 	

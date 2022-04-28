@@ -20,39 +20,35 @@ public class Materiels {
 	private String designation;
 	private String etat ;
 	private String disponible;
-	private String origine;
 	@Lob
 	private byte[] materielimage;
-	private String date ;
 	@ManyToOne
 	private Categorie categorie;
-	
        @ManyToMany()
 	
 	private List<Inventaire> inventaires;
 	
 	
-	public Materiels( String designation , String etat, String disponible,String origine, 
-			byte[] materielimage, String date, Categorie categorie) {
+	public Materiels( String designation , String etat, String disponible,
+			byte[] materielimage,  Categorie categorie) {
 		super();
 		this.designation = designation;
 		this.etat = etat;
 		this.disponible = disponible;
-		this.origine = origine;
+		
 		this.materielimage= materielimage;
-		this.date = date;
+		
 		this.categorie=categorie;
 	
 	}
-	public Materiels(Integer id, String designation , String etat, String disponible,String origine, 
-			byte[] materielimage, String date) {
+	public Materiels(Integer id, String designation , String etat, String disponible, 
+			byte[] materielimage) {
 		super();
 		this.designation = designation;
 		this.etat = etat;
 		this.disponible = disponible;
-		this.origine = origine;
 		this.materielimage= materielimage;
-		this.date = date;
+	
 		
 	
 	

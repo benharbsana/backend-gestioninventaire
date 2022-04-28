@@ -12,6 +12,6 @@ public class InventaireResponse {
 	private String status;
 	private String message;
 	private String AUTH_TOKEN;
-	private List<Inventaire> obinv;
+	private List<Inventaire> oblist;
 
 }
