@@ -1,6 +1,7 @@
 package com.example.test.Modeles;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,9 +21,7 @@ public class Categorie {
 	private String nomcat;
 	private String description;
 	@JsonIgnore
-	@OneToMany (mappedBy = "categorie")
+	@OneToMany (mappedBy = "categorie", cascade = CascadeType.REMOVE)
 	List<Materiels> materiels;
-	
-	
 	
 }

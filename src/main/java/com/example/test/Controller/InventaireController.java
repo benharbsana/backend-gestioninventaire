@@ -2,6 +2,8 @@ package com.example.test.Controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.example.test.Modeles.Inventaire;
-
+import com.example.test.Modeles.Materiels;
 import com.example.test.Modeles.QRcode;
 
 import com.example.test.Repository.InventaireRepository;
@@ -59,6 +61,7 @@ public class InventaireController {
 	    public Inventaire createinventaire(@Validated @RequestBody Inventaire inventaire) {
 		 Inventaire inventairelocale= new Inventaire();
 		 Date datenow= new Date();
+		 System.out.println(inventaire.getMateriels());
 		 inventairelocale.setMateriels(inventaire.getMateriels());
 		 inventairelocale.setUser(inventaire.getUser());
 		 inventairelocale.setDateinv(datenow);
@@ -67,17 +70,24 @@ public class InventaireController {
 	    }
 	 
 	 
-	 @PutMapping("/inventaire/{id}")
+	 @PutMapping("/updateinventaire/{id}")
 	    public ResponseEntity<Inventaire> updateinventaire(@PathVariable(value = "id") Integer inventaireId,
+	    		
 	                                                  @Validated @RequestBody Inventaire inventaireDetails) throws com.example.test.exception.ResourceNotFoundException {
-	        Inventaire inventaire = inventaireRepository.findById(inventaireId)
+	        Inventaire oldinventaire = inventaireRepository.findById(inventaireId)
+	        		
 	                .orElseThrow(() -> new com.example.test.exception.ResourceNotFoundException("inventaire not found for this id :: " + inventaireId));
+	        Date datenow= new Date();
 	        
-	        inventaire.setDateinv(inventaireDetails.getDateinv());
+	        oldinventaire.setDateinv(datenow);
+	        oldinventaire.setMateriels(inventaireDetails.getMateriels());
 
-	        final Inventaire updateinventaire = inventaireRepository.save(inventaire);
+	        final Inventaire updateinventaire = inventaireRepository.save(oldinventaire);
 	        return ResponseEntity.ok(updateinventaire);
 	    }
+	 
+	
+	
 	 
 	 @DeleteMapping("/inventaire/{id}")
 	    public Map<String, Boolean> deleteInventaire(@PathVariable(value = "id")Integer inventaireId)
@@ -95,6 +105,7 @@ public class InventaireController {
 	
 	
 	
+	 
 	
 	
 	 @RequestMapping(value = "qrcode/{id}", method = RequestMethod.GET)

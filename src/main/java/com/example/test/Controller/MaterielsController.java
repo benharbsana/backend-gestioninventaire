@@ -158,10 +158,7 @@ public class MaterielsController {
 	 throws IOException {
 		  
 		 MaterielResponse mat = new MaterielResponse();
-		 logger.error("id",catid);
 		 try {
-			 logger.error("id",catid);
-			 System.out.println(catid);
 			 mat.setStatus(com.example.test.message.ResponseCode.SUCCESS_CODE);
 			mat.setMessage(com.example.test.message.ResponseCode.LIST_SUCCESS_MESSAGE);
 			mat.setOblist(materielsRepository.findBygetmaterielwithcategorieid(catid));

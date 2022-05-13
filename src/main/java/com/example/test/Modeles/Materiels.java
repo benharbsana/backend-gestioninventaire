@@ -1,4 +1,5 @@
 package com.example.test.Modeles;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -24,9 +27,10 @@ public class Materiels {
 	private byte[] materielimage;
 	@ManyToOne
 	private Categorie categorie;
-       @ManyToMany()
-	
-	private List<Inventaire> inventaires;
+    @ManyToMany(mappedBy = "materiels")
+    @JsonIgnore
+	private List<Inventaire> inventaires ;
+    ;
 	
 	
 	public Materiels( String designation , String etat, String disponible,
