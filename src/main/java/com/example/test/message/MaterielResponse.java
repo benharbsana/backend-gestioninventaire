@@ -13,6 +13,7 @@ public class MaterielResponse {
 	private String message;
 	private String AUTH_TOKEN;
 	private List<Materiels> oblist;
+	private List<Long> oblistcount;
 
 
 }

@@ -1,6 +1,8 @@
 package com.example.test.Controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.test.Modeles.Categorie;
 import com.example.test.Modeles.Materiels;
 import com.example.test.Repository.CategorieRepository;
+import com.example.test.Repository.InventaireRepository;
 import com.example.test.Repository.MaterielsRepository;
+import com.example.test.Repository.UserRepository;
 import com.example.test.exception.MaterielCustomException;
 import com.example.test.message.MaterielResponse;
 import com.example.test.message.ServerResponse;
@@ -33,6 +37,10 @@ import com.example.test.util.validator;
 public class MaterielsController {
 	 	@Autowired
 	private MaterielsRepository materielsRepository;
+	 	@Autowired
+	private UserRepository userRepository;
+@Autowired
+    private InventaireRepository inventaireRepository; 	 	
 	 	@Autowired
 	private CategorieRepository categorieRepository;
 	 private static Logger logger = LoggerFactory.getLogger(MaterielsController.class);
@@ -169,6 +177,54 @@ public class MaterielsController {
 			}
 			return new ResponseEntity<MaterielResponse>(mat, HttpStatus.OK);
 		}
+	 
+	 
+	 @GetMapping("/counts")
+	 public ResponseEntity<MaterielResponse> countentities()
+	 throws IOException {
+		 MaterielResponse mat = new MaterielResponse();
+		 List<Long> counts = new ArrayList<>(); 
+		 
+		
+		 try {
+			 
+			 Long usercount= userRepository.count();
+			 Long categcount= categorieRepository.count();
+			 Long matcount= materielsRepository.count();
+			 Long invcout= inventaireRepository.count();
+			 counts.add(invcout);
+			 counts.add(categcount);
+			 counts.add(matcount);
+			 counts.add(usercount);
+			 System.out.println(counts);
+			mat.setStatus(com.example.test.message.ResponseCode.SUCCESS_CODE);
+			mat.setMessage(com.example.test.message.ResponseCode.LIST_SUCCESS_MESSAGE);
+			mat.setOblistcount(counts);
+			
+		 }
+		 catch (Exception m) {
+				throw new MaterielCustomException("Unable to retrieve materiel, please try again");
+			}
+			return new ResponseEntity<MaterielResponse>(mat, HttpStatus.OK);
+		}
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	 }
 	 
 		

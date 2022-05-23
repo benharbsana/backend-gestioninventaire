@@ -70,13 +70,11 @@ public class InventaireController {
 	    }
 	 
 	 
-	 @PutMapping("/updateinventaire/{id}")
-	    public ResponseEntity<Inventaire> updateinventaire(@PathVariable(value = "id") Integer inventaireId,
-	    		
-	                                                  @Validated @RequestBody Inventaire inventaireDetails) throws com.example.test.exception.ResourceNotFoundException {
-	        Inventaire oldinventaire = inventaireRepository.findById(inventaireId)
-	        		
-	                .orElseThrow(() -> new com.example.test.exception.ResourceNotFoundException("inventaire not found for this id :: " + inventaireId));
+	    @PutMapping("/updateinventaire/{id}")
+	    public ResponseEntity<Inventaire> updateinventaire(@PathVariable(value = "id") Integer inventaireId,@Validated @RequestBody Inventaire inventaireDetails) throws com.example.test.exception.ResourceNotFoundException {
+	        System.out.println("****************************************************************");
+	    	Inventaire oldinventaire = inventaireRepository.findById(inventaireId)
+	        		.orElseThrow(() -> new com.example.test.exception.ResourceNotFoundException("inventaire not found for this id :: " + inventaireId));
 	        Date datenow= new Date();
 	        
 	        oldinventaire.setDateinv(datenow);
