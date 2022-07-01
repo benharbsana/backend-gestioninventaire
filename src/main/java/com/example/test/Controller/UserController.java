@@ -70,6 +70,16 @@ public class UserController {
 	}
 
 	
+	@GetMapping(path = "/user/usersSearch/{username}")
+	public List<User> getSearch(@PathVariable String username)
+	{
+		System.out.print("\n test\n");
+		System.out.print("\n"+username+" \n");
+		System.out.print(userRepository.findAllByUserName(username));
+		 return  userRepository.findAllByUserName(username);
+		
+	}
+	
 	
 	
 	

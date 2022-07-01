@@ -78,8 +78,8 @@ public class InventaireController {
 	        Date datenow= new Date();
 	        
 	        oldinventaire.setDateinv(datenow);
+	        oldinventaire.setUser(inventaireDetails.getUser());
 	        oldinventaire.setMateriels(inventaireDetails.getMateriels());
-
 	        final Inventaire updateinventaire = inventaireRepository.save(oldinventaire);
 	        return ResponseEntity.ok(updateinventaire);
 	    }
@@ -109,12 +109,14 @@ public class InventaireController {
 	 @RequestMapping(value = "qrcode/{id}", method = RequestMethod.GET)
 		public void qrcode(@PathVariable("id") int id, HttpServletResponse response) throws Exception{
 			Inventaire inventaire = inventaireRepository.findById(id);
+			String departement=inventaire.getUser().getDepartement();
+			String username=inventaire.getUser().getUserName();
 
 			if(id == inventaire.getCodeInv()){
 				response.setContentType("image/png");
 				OutputStream outputStream = response.getOutputStream();
 
-				outputStream.write(QRcode.getQRCodeImage( "http://localhost:4200/Scanner/" + id, 300, 300));
+				outputStream.write(QRcode.getQRCodeImage( " ce matériel d'inventaire de code " +id+ "de departement"+departement+ "de nom"+username, 300, 300));
 
 				outputStream.flush();
 				outputStream.close();
